@@ -89,12 +89,58 @@ class Clock extends React.Component {
     }
 }
 
+class Toggle extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {isToggleOn: true};
+        // This binding is necessary to make 'this' of Toggle work in the callback
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick() {
+
+        console.log('Toggle - This is: ', this);
+        this.setState(preState => (
+            {isToggleOn: !preState.isToggleOn}
+        ));
+    }
+
+    render() {
+        return (
+            <button onClick={this.handleClick}>
+                {this.state.isToggleOn ? 'ON' : 'OFF'}
+            </button>
+        );
+    }
+}
+
+
+class LoggingButton extends React.Component {
+    handleClick = (e) => {
+        // Clear default behavior
+        e.preventDefault();
+        // This syntax ensures 'this'
+        console.log('LoggingButton - This is:', this);
+    }
+
+    render() {
+        return (
+            // Without using 'bind' in the property initializer, 'this' refers to the button scope now
+            <button onClick={(e) => this.handleClick(e) }>
+                Click me
+            </button>
+        );
+    }
+}
+
+
 function App() {
     return (
         <div>
             <Clock />
-            <Clock />
-            <Clock />
+            <Toggle />
+            <br />
+            <LoggingButton />
         </div>);
 }
 
